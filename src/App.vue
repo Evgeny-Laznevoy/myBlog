@@ -1,14 +1,27 @@
 <template>
   <div id="app">
+    <Header />
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import Header from './components/Header'
+
+export default {
+  components: {
+    Header,
+  }
 }
+</script>
+
+<style lang="scss">
+@import './assets/index.css';
+
+#app {
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 100%;
+  background-color: #FAFBFC;
+}
+
 </style>
