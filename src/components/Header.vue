@@ -9,10 +9,10 @@
         <div class="header-top-menu__navigation-list">
           <nav class="button">
             <div class="button__tenders">
-              Тендеры
+              <router-link to="/tenders">Тендеры</router-link>
             </div>
             <div class="button__base">
-              База подрядчиков
+              <router-link to="/contractors-base">База подрядчиков</router-link>
             </div>
             <div
               class="button__servises"
@@ -39,12 +39,27 @@
         <div class="ui-input-search">
           <input
             class="ui-input-search__input"
+            ref="element_lists"
             type="text"
             placeholder="Хочу найти..."
+            autocomplete="off"
+            @input="filterStates"
+            v-model="state"
+            @focus="modal = true"
           />
-          <button>
-            <img :src="`${svgSearch}`" alt="search" />
-          </button>
+          <div class="lists">
+            <div v-if="filteredStates && modal">
+              <ul>
+                <li
+                  v-for="(filteredState, i) in filteredStates"
+                  :key="i"
+                  @click="setState(filteredState)"
+                >
+                  {{ filteredState }}
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
       <div class="header-bottom__button">
@@ -54,9 +69,11 @@
         </button>
       </div>
       <div class="header-bottom__profile">
-        <div class="header-bottom__profile-logo">
-          <span>{{ profileName }}</span>
-        </div>
+        <router-link to="/profile">
+          <div class="header-bottom__profile-logo">
+            <span>{{ profileName }}</span>
+          </div>
+        </router-link>
       </div>
     </nav>
   </header>
@@ -87,10 +104,34 @@ export default {
       buttonCatalog: "Каталог",
       buttonList: "Список",
       profileName: "A",
+      states: ["Лопата", "Фильтр", "Стол", "Брус", "Шланг", "Строительный нож"],
+      state: "",
+      filteredStates: [],
+      modal: false,
     };
   },
-  setup() {
-    return {};
+  methods: {
+    filterStates() {
+      if (this.state.length !== 0) {
+        this.filteredStates = this.states.filter((state) => {
+          return state.toLowerCase().startsWith(this.state.toLowerCase());
+        });
+      } else {
+        this.filteredStates = [];
+      }
+    },
+    setState(state) {
+      this.state = state;
+      this.modal = false;
+    },
+  },
+  mounted() {
+    let vm = this;
+    document.addEventListener('click', function (item) {
+      if (item.target !== vm.$refs['element_lists']) {
+        vm.modal = false;
+      }
+    })
   },
 };
 </script>
