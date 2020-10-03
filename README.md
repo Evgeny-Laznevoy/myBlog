@@ -1,4 +1,4 @@
-# myblog
+# stroyTest
 
 ## Project setup
 ```
